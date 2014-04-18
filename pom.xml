@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>casjaasexample</groupId>
+	<groupId>com.krzyzanek</groupId>
 	<artifactId>casjaasexample</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
 	<name>casjaasexample</name>
- 	<description>Example how to integrate JBoss EAP 6 with CAS SSO server</description>
+	<description>Example how to integrate JBoss EAP 6 with CAS SSO server</description>
 
 	<repositories>
 		<repository>
@@ -36,6 +36,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
+		<cas-java-client.version>3.3.1</cas-java-client.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -45,12 +46,33 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- CAS Integration -->
+		<!-- More info: https://wiki.jasig.org/display/casc/jaas+integration -->
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>${cas-java-client.version}</version>
+		</dependency>
+		<!-- It's not possible to use this jboss integration in EAP 6.2 because Java EE 6 comes with built in login mechanism
+		http://docs.oracle.com/javaee/6/api/javax/servlet/http/HttpServletRequest.html#login(java.lang.String,%20java.lang.String)
+		See Issue: https://issues.jasig.org/browse/CASC-174
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-integration-jboss</artifactId>
+			<version>${cas-java-client.version}</version>
+		</dependency>
+		-->
 	</dependencies>
+
+	<build>
+		<finalName>casjaasexample</finalName>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>openshift</id>
 			<build>
-				<finalName>casjaasexample</finalName>
 				<plugins>
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>

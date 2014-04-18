@@ -72,6 +72,11 @@
 			<logger category="jacorb.config">
 				<level name="ERROR" />
 			</logger>
+
+			<logger category="org.jasig">
+				<level name="FINEST" />
+			</logger>
+
 			<root-logger>
 				<level name="INFO" />
 				<handlers>
@@ -466,7 +471,39 @@
                         <policy-module code="Delegating" flag="required"/>
                     </authorization>
                 </security-domain>
-            </security-domains>
+
+<!--
+More info:
+	https://access.redhat.com/site/documentation/en-US/JBoss_Enterprise_Application_Platform/6.2/html/Security_Guide/Configure_Authentication_in_a_Security_Domain.html
+	https://wiki.jasig.org/display/casc/jaas+integration
+-->
+				<security-domain name="CasSecurityDomain">
+					<authentication>
+						<login-module code="org.jasig.cas.client.jaas.CasLoginModule" flag="required">
+							<module-option name="ticketValidatorClass" value="org.jasig.cas.client.validation.Cas20ServiceTicketValidator" />
+							<module-option name="casServerUrlPrefix" value="https://sso-dev.jboss.org"/>
+							<module-option name="tolerance" value="20000" />
+							<module-option name="defaultRoles" value="user" />
+							<module-option name="roleAttributeNames" value="memberOf,eduPersonAffiliation,authorities" />
+							<module-option name="principalGroupName" value="CallerPrincipal"/>
+							<module-option name="roleGroupName" value="Roles"/>
+							<module-option name="cacheAssertions" value="true" />
+							<module-option name="cacheTimeout" value="480" />
+						</login-module>
+					</authentication>
+				</security-domain>
+
+
+				<security-domain name="test">
+					<authentication>
+						<login-module code="UsersRoles" flag="required">
+							<module-option name="usersProperties" value="users.properties"/>
+							<module-option name="rolesProperties" value="roles.properties"/>
+						</login-module>
+					</authentication>
+				</security-domain>
+
+			</security-domains>
         </subsystem>
 		<subsystem xmlns="urn:jboss:domain:threads:1.1" />
 		<subsystem xmlns="urn:jboss:domain:transactions:1.4">
