@@ -493,16 +493,6 @@ More info:
 					</authentication>
 				</security-domain>
 
-
-				<security-domain name="test">
-					<authentication>
-						<login-module code="UsersRoles" flag="required">
-							<module-option name="usersProperties" value="users.properties"/>
-							<module-option name="rolesProperties" value="roles.properties"/>
-						</login-module>
-					</authentication>
-				</security-domain>
-
 			</security-domains>
         </subsystem>
 		<subsystem xmlns="urn:jboss:domain:threads:1.1" />
