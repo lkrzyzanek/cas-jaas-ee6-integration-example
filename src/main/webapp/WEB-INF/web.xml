@@ -6,13 +6,14 @@
 		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		 metadata-complete="false">
 
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>All resources</web-resource-name>
-			<description>Protects all resources</description>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-	</security-constraint>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<!-- This do the redirect magic when user hits secured content e.g. /secured-servlet -->
+			<form-login-page>/login/cas</form-login-page>
+			<form-error-page>/</form-error-page>
+		</form-login-config>
+	</login-config>
 
 	<!-- Facilitates CAS single sign-out -->
 	<listener>
@@ -61,11 +62,11 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CASWebAuthenticationFilter</filter-name>
-		<url-pattern>*</url-pattern>
+		<url-pattern>/login/cas</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CASAuthenticationFilter</filter-name>
-		<url-pattern>*</url-pattern>
+		<url-pattern>/login/cas</url-pattern>
 	</filter-mapping>
 
 
