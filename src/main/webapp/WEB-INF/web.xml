@@ -35,7 +35,7 @@
 		<filter-class>org.jasig.cas.client.ee6.authentication.JavaEE6AuthenticationFilter</filter-class>
 		<init-param>
 			<param-name>serverName</param-name>
-			<param-value>http://localhost:8080</param-value>
+			<param-value>${cas.property.serverName}</param-value>
 		</init-param>
 
 	</filter>
@@ -44,7 +44,7 @@
 		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
 		<init-param>
 			<param-name>serverName</param-name>
-			<param-value>http://localhost:8080</param-value>
+			<param-value>${cas.property.serverName}</param-value>
 		</init-param>
 		<init-param>
 			<param-name>casServerLoginUrl</param-name>
