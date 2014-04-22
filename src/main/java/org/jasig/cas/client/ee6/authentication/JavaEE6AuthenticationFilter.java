@@ -4,10 +4,7 @@ import org.jasig.cas.client.jaas.AssertionPrincipal;
 import org.jasig.cas.client.util.AbstractCasFilter;
 import org.jasig.cas.client.util.CommonUtils;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,12 +22,29 @@ import java.security.GeneralSecurityException;
  */
 public class JavaEE6AuthenticationFilter extends AbstractCasFilter {
 
+	/**
+	 * Specify whether the filter should redirect the user agent after a
+	 * successful validation to remove the ticket parameter from the query
+	 * string.
+	 */
+	private boolean redirectAfterValidation = false;
+
+	@Override
+	protected void initInternal(FilterConfig filterConfig) throws ServletException {
+		super.initInternal(filterConfig);
+
+		setRedirectAfterValidation(parseBoolean(getPropertyFromInitParams(filterConfig, "redirectAfterValidation", "true")));
+		logger.trace("Setting redirectAfterValidation parameter: " + this.redirectAfterValidation);
+	}
+
 	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse,
 						 final FilterChain chain) throws IOException, ServletException {
 		final HttpServletRequest request = (HttpServletRequest) servletRequest;
 		final HttpServletResponse response = (HttpServletResponse) servletResponse;
 		final HttpSession session = request.getSession();
 		final String ticket = CommonUtils.safeGetParameter(request, getArtifactParameterName());
+
+
 
 		if (session != null && session.getAttribute(CONST_CAS_ASSERTION) == null && ticket != null) {
 			try {
@@ -49,6 +63,14 @@ public class JavaEE6AuthenticationFilter extends AbstractCasFilter {
 					final AssertionPrincipal principal = (AssertionPrincipal) request.getUserPrincipal();
 					logger.debug("Installing CAS assertion into session.");
 					request.getSession().setAttribute(CONST_CAS_ASSERTION, principal.getAssertion());
+
+					// Added redirectAfterValidation. see Cas20ProxyReceivingTicketValidationFilter implementation
+					if (this.redirectAfterValidation) {
+						logger.debug("Redirecting after successful ticket validation.");
+						response.sendRedirect(constructServiceUrl(request, response));
+						return;
+					}
+					response.sendRedirect(constructServiceUrl(request, response));
 				} else {
 					logger.debug("Aborting -- principal is not of type AssertionPrincipal");
 					throw new GeneralSecurityException(
@@ -65,5 +87,13 @@ public class JavaEE6AuthenticationFilter extends AbstractCasFilter {
 			session.removeAttribute(CONST_CAS_ASSERTION);
 		}
 		chain.doFilter(request, response);
+	}
+
+	public boolean isRedirectAfterValidation() {
+		return redirectAfterValidation;
+	}
+
+	public void setRedirectAfterValidation(boolean redirectAfterValidation) {
+		this.redirectAfterValidation = redirectAfterValidation;
 	}
 }
