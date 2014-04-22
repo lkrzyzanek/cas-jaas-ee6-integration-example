@@ -6,10 +6,10 @@
 		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		 metadata-complete="false">
 
+	<!-- This do the redirect magic when user hits secured content e.g. /secured-servlet -->
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
-			<!-- This do the redirect magic when user hits secured content e.g. /secured-servlet -->
 			<form-login-page>/login/cas</form-login-page>
 			<form-error-page>/</form-error-page>
 		</form-login-config>
