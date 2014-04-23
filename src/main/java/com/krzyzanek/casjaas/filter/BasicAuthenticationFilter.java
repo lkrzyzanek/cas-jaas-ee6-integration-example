@@ -4,6 +4,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.logging.Level;
@@ -24,6 +25,7 @@ public class BasicAuthenticationFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) resp;
 
 		// Check http basic authentication first
 		Enumeration<String> authentication = request.getHeaders("Authorization");
@@ -45,8 +47,13 @@ public class BasicAuthenticationFilter implements Filter {
 				String password = usernamePassword.substring(colon + 1, usernamePassword.length());
 
 				log.log(Level.FINE, "Requiring Basic Authentication for username: {0}", username);
-				request.login(username, password);
-
+				try {
+					request.login(username, password);
+					log.log(Level.INFO, "Authenticated request: {0}", request.getUserPrincipal());
+				} catch (final ServletException e) {
+					log.log(Level.FINE, "Custom authentication failed.", e);
+					response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+				}
 			}
 		}
 		chain.doFilter(req, resp);
