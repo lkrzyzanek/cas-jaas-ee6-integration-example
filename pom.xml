@@ -38,7 +38,23 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<cas-java-client.version>3.3.1</cas-java-client.version>
 		<cas.property.serverName>http://localhost:8080</cas.property.serverName>
+		<jboss.bom.version>6.2.0.GA</jboss.bom.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Dependency management for JBoss EAP 6.2 artifacts -->
+			<dependency>
+				<groupId>org.jboss.bom</groupId>
+				<artifactId>eap6-supported-artifacts</artifactId>
+				<version>${jboss.bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
@@ -60,6 +76,18 @@
 					<artifactId>opensaml</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<!-- Basic Authentication -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<!-- Needed by UsernamePasswordLoginModule -->
+		<dependency>
+			<groupId>org.picketbox</groupId>
+			<artifactId>picketbox</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

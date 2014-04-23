@@ -27,6 +27,12 @@
 		</listener-class>
 	</listener>
 
+	<!-- Basic Authentication Consumer -->
+	<filter>
+		<filter-name>BasicAuthenticationFilter</filter-name>
+		<filter-class>com.krzyzanek.casjaas.filter.BasicAuthenticationFilter</filter-class>
+	</filter>
+
 	<!-- Following is needed only if CAS single-sign out is desired -->
 	<filter>
 		<filter-name>CAS Single Sign Out Filter</filter-name>
@@ -57,6 +63,11 @@
 		</init-param>
 	</filter>
 	<!-- Other filters as needed -->
+
+	<filter-mapping>
+		<filter-name>BasicAuthenticationFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
 
 	<!-- CAS client filter mappings -->
 	<!-- The order of the following filters is vitally important -->

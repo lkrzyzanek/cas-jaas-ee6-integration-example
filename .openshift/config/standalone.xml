@@ -479,6 +479,9 @@ More info:
 -->
 				<security-domain name="CasSecurityDomain">
 					<authentication>
+						<login-module code="com.krzyzanek.casjaas.CustomLoginModule" flag="sufficient">
+						</login-module>
+
 						<login-module code="org.jasig.cas.client.jaas.CasLoginModule" flag="required">
 							<module-option name="ticketValidatorClass" value="org.jasig.cas.client.validation.Cas20ServiceTicketValidator" />
 							<module-option name="casServerUrlPrefix" value="https://sso-dev.jboss.org"/>
