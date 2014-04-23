@@ -15,11 +15,12 @@ public class CasLoginServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String url = "/";
 		if (req.getUserPrincipal() == null) {
-			resp.sendRedirect("/login/cas");
-		} else {
-			// TODO: Redirect to back url
-			resp.sendRedirect("/");
+			url = "/login/cas";
+		}
+		if (!resp.isCommitted()) {
+			resp.sendRedirect(url);
 		}
 
 	}
