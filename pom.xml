@@ -61,15 +61,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- It's not possible to use this jboss integration in EAP 6.2 because Java EE 6 comes with built in login mechanism
-		http://docs.oracle.com/javaee/6/api/javax/servlet/http/HttpServletRequest.html#login(java.lang.String,%20java.lang.String)
-		See Issue: https://issues.jasig.org/browse/CASC-174
-		<dependency>
-			<groupId>org.jasig.cas.client</groupId>
-			<artifactId>cas-client-integration-jboss</artifactId>
-			<version>${cas-java-client.version}</version>
-		</dependency>
-		-->
 	</dependencies>
 
 	<build>

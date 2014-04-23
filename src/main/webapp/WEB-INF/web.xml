@@ -15,6 +15,11 @@
 		</form-login-config>
 	</login-config>
 
+	<security-role>
+		<!-- Default CAS role for all authenticated users -->
+		<role-name>user</role-name>
+	</security-role>
+
 	<!-- Facilitates CAS single sign-out -->
 	<listener>
 		<listener-class>
@@ -33,12 +38,11 @@
 	<!-- Only 2 CAS filters are required for JAAS support -->
 	<filter>
 		<filter-name>CASWebAuthenticationFilter</filter-name>
-		<filter-class>org.jasig.cas.client.ee6.authentication.JavaEE6AuthenticationFilter</filter-class>
+		<filter-class>org.jasig.cas.client.jaas.Servlet3AuthenticationFilter</filter-class>
 		<init-param>
 			<param-name>serverName</param-name>
 			<param-value>${cas.property.serverName}</param-value>
 		</init-param>
-
 	</filter>
 	<filter>
 		<filter-name>CASAuthenticationFilter</filter-name>
