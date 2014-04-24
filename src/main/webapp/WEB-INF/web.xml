@@ -26,6 +26,11 @@
 		<role-name>user</role-name>
 	</security-role>
 
+	<!-- Default role by CustomLoginModule -->
+	<security-role>
+		<role-name>httpBasicUser</role-name>
+	</security-role>
+
 	<!-- Facilitates CAS single sign-out -->
 	<listener>
 		<listener-class>
