@@ -3,9 +3,12 @@ CAS JAAS Integration Java EE 6 Example
 
 This example shows how Java EE 6 app (JBoss AS 7 resp. EAP 6.2) can be integrated with CAS Single Sign On server.
 
+In Addition to the CAS integration it shows how to write simple JAAS Login Module.
+
 After deployment you get:
 
 * / - main page with information about currently logged in user
+* Filter which examine HTTP Basic authentication. If present then triggers JAAS login.
 * /login/cas - single point for login to CAS server
 * /secured-servlet - secured servlet via @ServletSecurity annotation
 
