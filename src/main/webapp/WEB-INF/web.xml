@@ -6,6 +6,12 @@
 		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		 metadata-complete="false">
 
+	<!-- see https://docs.jboss.org/resteasy/2.0.0.GA/userguide/html/Securing_JAX-RS_and_RESTeasy.html -->
+	<context-param>
+		<param-name>resteasy.role.based.security</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
 	<!-- This do the redirect magic when user hits secured content e.g. /secured-servlet -->
 	<login-config>
 		<auth-method>FORM</auth-method>

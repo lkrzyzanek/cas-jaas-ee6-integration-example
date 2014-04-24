@@ -1,5 +1,6 @@
 package com.krzyzanek.casjaas;
 
+import org.jasig.cas.client.authentication.SimplePrincipal;
 import org.jboss.security.SimpleGroup;
 import org.jboss.security.auth.spi.UsernamePasswordLoginModule;
 
@@ -17,6 +18,7 @@ public class CustomLoginModule extends UsernamePasswordLoginModule {
 
 	protected Logger log = Logger.getLogger(CustomLoginModule.class.getName());
 
+	public static final String DEFAULT_ROLE = "httpBasicUser";
 
 	@Override
 	protected String getUsersPassword() throws LoginException {
@@ -30,6 +32,7 @@ public class CustomLoginModule extends UsernamePasswordLoginModule {
 		Group[] groups = new Group[1];
 		// RoleGroup
 		groups[0] = new SimpleGroup("Roles");
+		groups[0].addMember(new SimplePrincipal(DEFAULT_ROLE));
 		return groups;
 	}
 }
