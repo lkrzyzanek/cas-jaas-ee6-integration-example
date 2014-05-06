@@ -6,6 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +30,10 @@ public class BasicAuthenticationFilter implements Filter {
 
 		// Check http basic authentication first
 		Enumeration<String> authentication = request.getHeaders("Authorization");
+		if (log.isLoggable(Level.FINEST)) {
+			log.log(Level.FINEST, "Request headers: {0}", Collections.list(request.getHeaderNames()));
+			log.log(Level.FINEST, "Basic Authentication, authentications: {0}", Collections.list(authentication));
+		}
 
 		while (authentication.hasMoreElements()) {
 			String auth = authentication.nextElement();
